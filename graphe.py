@@ -19,7 +19,7 @@ class Graph :
 
     def arc_in_graph(self,u , v) -> bool:
         """Méthode qui donne la présence de l'arc (u,v)"""
-        return (u,v) in self.poids.keys()   
+        return (u,v) in self.weight.keys()   
 
     def presence_arete(self,u , v) -> bool:
         """Méthode qui donne la présence de l'arc (u,v) dans le graphe"""
@@ -43,7 +43,7 @@ class Graph :
     
     def copy_liste_sommet(self) -> list:
         """Méthode qui renvoie une copie de la liste des sommets"""
-        return list(self.adjacence.keys)
+        return list(self.adj.keys())
     
     def child(self, sommet ) -> list:
         return self.adj[sommet]
