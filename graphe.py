@@ -4,7 +4,7 @@ class Graph :
         self.adj = {} #Dictionnaire dont les clés sont les noeuds du graphe. Pour chaque clé on a une liste de voisins associée
         self.weight = {} #Dictionnaire dont les clés sont des tuples de noeuds et les valeurs associés sont le poids de l'arête formée
 
-    def is_in_graph(self, sommet : str or int) -> bool :
+    def is_in_graph(self, sommet ) -> bool :
         """Méthode qui vérifie si un sommet est dans le graphe"""
         return sommet in self.adj.keys()  #Retourne un booléen
     
@@ -12,16 +12,16 @@ class Graph :
         """Méthode qui renvoie le dictionnaire d'ajacence du graphe"""
         return self.adj
     
-    def add_sommet(self, sommet : str or int):
+    def add_sommet(self, sommet ):
         """Méthode qui ajoute un sommet dans le graphe"""
         if not self.is_in_graph(sommet):
             self.adj[sommet]=[]
 
-    def arc_in_graph(self,u :str or int, v : str or int) -> bool:
+    def arc_in_graph(self,u , v) -> bool:
         """Méthode qui donne la présence de l'arc (u,v)"""
         return (u,v) in self.poids.keys()   
 
-    def presence_arete(self,u : str or int, v: str or int) -> bool:
+    def presence_arete(self,u , v) -> bool:
         """Méthode qui donne la présence de l'arc (u,v) dans le graphe"""
         return (u,v) in self.weight.keys() and (v,u) in self.weight.keys()       
 
@@ -45,7 +45,7 @@ class Graph :
         """Méthode qui renvoie une copie de la liste des sommets"""
         return list(self.adjacence.keys)
     
-    def child(self, sommet : int or str) -> list:
+    def child(self, sommet ) -> list:
         return self.adj[sommet]
     
     def set_weight_arc(self, arc : tuple, new_p : int):
