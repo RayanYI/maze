@@ -45,7 +45,8 @@ class Render:
                     self.add_segment(point1=((2*i+1)/2,j-0.5), point2 = ((2*i+1)/2,j+0.5),color='b')
 
         self.display()
-        
+
+
 if __name__ == "__main__":
     render = Render()
     
