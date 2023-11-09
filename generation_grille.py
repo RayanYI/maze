@@ -10,6 +10,7 @@ class Generation :
     
     def dico_grid_not_weighted(self, width : int, height : int) -> tuple :
         """Méthode qui renvoie les dictionnaires de poids et d'ajdacence du graphe non pondéré d'une grille de largeur et de hauteur spécifiées"""
+        moves = [(1,0),(-1,0),(0,1),(0,-1)]
         self.width = width
         self.height = height
         p = 1   #Non pondéré donc on met le poids à 1 pour toutes les arêtes car on doit malgré tout utiliser un poids
@@ -19,14 +20,14 @@ class Generation :
                 y = i
                 case_courante= (x, y)
                 self.graph.add_sommet(case_courante)   #Ajout d'une case
-                self.graph.add_arete((case_courante, (x+1, y)), p)   #On essaie d'ajouter une arête à chaque case adjacente du graphe
-                self.graph.add_arete((case_courante, (x-1, y)), p)
-                self.graph.add_arete((case_courante, (x, y+1)), p )
-                self.graph.add_arete((case_courante, (x, y-1)) , p)
+                for move in moves:
+                    self.graph.add_arete((case_courante, (x+move[0], y+move[1])), p)
+
         return self.graph.get_adj(), self.graph.weight
     
     def dico_grid_weighted(self, width : int, height : int) -> tuple :
-        """Méthode qui renvoie les dictionnaires de poids et d'ajdacence du graphe pondéré aléatoirement d'une grille de largeur et de hauteur spécifiées"""  
+        """Méthode qui renvoie les dictionnaires de poids et d'ajdacence du graphe pondéré aléatoirement d'une grille de largeur et de hauteur spécifiées"""
+        moves = [(1,0),(-1,0),(0,1),(0,-1)]
         self.width = width
         self.height = height
         for i in range(height+1):
@@ -36,11 +37,10 @@ class Generation :
                 x = j
                 y = i
                 case_courante= (x, y)
-                self.graph.add_sommet(case_courante)   
-                self.graph.add_arete((case_courante, (x+1, y)), p)  
-                self.graph.add_arete((case_courante, (x-1, y)), p)
-                self.graph.add_arete((case_courante, (x, y+1)), p )
-                self.graph.add_arete((case_courante, (x, y-1)) , p)
+                self.graph.add_sommet(case_courante)
+                for move in moves:
+                    self.graph.add_arete((case_courante, (x+move[0], y+move[1])), p)
+
         return self.graph.get_adj(), self.graph.weight
 
 
