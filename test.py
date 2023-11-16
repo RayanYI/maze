@@ -21,14 +21,11 @@ test2 = Generation()
 aff2 = Render()
 aff2.set_axes(8, 4)
 test2.dico_grid_weighted(8, 4)
-#aff2.display_graph(test2.graph)
+aff2.display_graph(test2.graph)
 
 test = Generation()
 aff2.set_axes(8, 4)
 test.dico_grid_weighted(2, 2)
-al= Algo(test.graph)
-w= test.graph.weight
 
-print(al.prim())
-arbre = al.generate_tree(al.graph, w)
-print(arbre.weight)
+###Test de Prim###
+test= Graph()
