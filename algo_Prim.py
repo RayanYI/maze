@@ -1,6 +1,8 @@
 from graphe import Graph
 from math import inf
 from generation_grille import Generation
+from render import Render 
+
 class Algo :
 
 
@@ -46,10 +48,13 @@ class Algo :
         dict_tree = self.prim()
         tree = Graph()  #Un arbre est un graphe vérifiant certaines propriétés
         for child in dict_tree.keys():
-            tree.add_arete((child, dict_tree[child]), self.cost[child])
+            tree.add_sommet(child)
+        for child in dict_tree.keys():
+            tree.add_arete((dict_tree[child], child), self.cost[child])
+
+            
         return tree
-
-
+    
 
 
 
