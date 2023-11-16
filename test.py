@@ -19,8 +19,8 @@ print(ex1.prim())"""
 
 test2 = Generation()
 aff2 = Render()
-aff2.set_axes(14, 15)
-test2.dico_grid_weighted(14,15)
+aff2.set_axes(3, 3)
+test2.dico_grid_weighted(3,3)
 """#aff2.display_graph(test2.graph)"""
 
 test = Generation()
@@ -32,4 +32,5 @@ algo=Algo(test2.graph)
 print(algo.prim())
 tree=algo.generate_tree(test2.graph, test2.graph.weight)
 print(tree.adj)
+print(algo.parent)
 aff2.display_PrimTree(tree)

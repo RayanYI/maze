@@ -46,7 +46,7 @@ class Algo :
         dict_tree = self.prim()
         tree = Graph()  #Un arbre est un graphe vérifiant certaines propriétés
         for child in dict_tree.keys():
-            tree.add_arc((child, dict_tree[child]), self.cost[child])
+            tree.add_arete((child, dict_tree[child]), self.cost[child])
         return tree
 
 
