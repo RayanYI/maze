@@ -1,6 +1,6 @@
 from graphe import Graph
 from math import inf
-
+from generation_grille import Generation
 class Algo :
 
 
@@ -45,15 +45,11 @@ class Algo :
         """Méthode qui renvoie le graphe associé à l'arbre dont on a défini les arêtes et les poids avec la méthode prim"""
         dict_tree = self.prim()
         tree = Graph()  #Un arbre est un graphe vérifiant certaines propriétés
-        for child in dict_tree.keys():  
-            parent = dict_tree[child]   #On récupère les parents avec prim
-            tree.add_sommet(child)  #On récupère la liste des sommets
-            if parent != None : 
-                tree.add_arete((child, parent), weight[(child, parent)])    #Ajout d'une arête par couple parent/enfant
+        for child in dict_tree.keys():
+            tree.add_arc((child, dict_tree[child]), self.cost[child])
         return tree
 
 
-    
-    
+
 
 
