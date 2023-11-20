@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plot
+import numpy as np
 from graphe import Graph
 plot.gca().get_xaxis()
 plot.gca().get_yaxis()
@@ -44,8 +45,58 @@ class Render:
                 if (i,j) not in dict_adj or (i+1,j) not in dict_adj[(i,j)]:
                     self.add_segment(point1=((2*i+1)/2,j-0.5), point2 = ((2*i+1)/2,j+0.5),color='b')
 
-        self.display()
+        #self.display()
 
+    def draw_hexagonal_Maze(self,PrimTree:Graph):
+        m = 0.5
+        def drawTopRight(center: tuple):
+            a = (center[0] + m*np.sin(0), center[1] + m*np.cos(0))
+            b = (center[0] + m*np.sin(1.04719755), center[1] + m*np.cos(1.04719755))
+            self.add_segment(a, b, color='b')
+
+        def drawRight(center: tuple):
+            a = (center[0] + m*np.sin(1.04719755), center[1] + m*np.cos(1.04719755))
+            b = (center[0] + m*np.sin(2.0943951), center[1] + m*np.cos(2.0943951))
+            self.add_segment(a, b, color='b')
+
+        def drawBottomRight(center: tuple):
+            a = (center[0] + m*np.sin(2.0943951), center[1] + m*np.cos(2.0943951))
+            b = (center[0] + m*np.sin(3.14159265), center[1] + m*np.cos(3.14159265))
+            self.add_segment(a, b, color='b')
+
+        def drawBottomLeft(center: tuple):
+            a = (center[0] + m*np.sin(3.14159265), center[1] + m*np.cos(3.14159265))
+            b = (center[0] + m*np.sin(4.1887902), center[1] + m*np.cos(4.1887902))
+            self.add_segment(a, b, color='b')
+
+        def drawLeft(center: tuple):
+            a = (center[0] + m*np.sin(4.1887902), center[1] + m*np.cos(4.1887902))
+            b = (center[0] + m*np.sin(5.23598776),center[1] + m*np.cos(5.23598776))
+            self.add_segment(a, b, color='b')
+
+        def drawTopLeft(center: tuple):
+            a = (center[0] + m*np.sin(5.23598776), center[1] + m*np.cos(5.23598776))
+            b = (center[0] + m*np.sin(6.28318531), center[1] + m*np.cos(6.28318531))
+            self.add_segment(a, b, color='b')
+
+        dict_adj = PrimTree.get_adj()
+        x, y = int(axes.get_xlim()[1]), int(axes.get_ylim()[1])
+
+        for i in range(x+1):
+            for j in range(y+1):
+
+                if (i,j) not in dict_adj or (i+1,j) not in dict_adj[(i,j)]:
+                    drawRight((i,j))
+                if (i,j) not in dict_adj or (i-1,j) not in dict_adj[(i,j)]:
+                    drawLeft((i,j))
+                if (i,j) not in dict_adj or (i+1,j+1) not in dict_adj[(i,j)]:
+                    drawTopRight((i,j))
+                if (i,j) not in dict_adj or (i-1,j+1) not in dict_adj[(i,j)]:
+                    drawTopLeft((i,j))
+                if (i, j) not in dict_adj or (i-1, j-1) not in dict_adj[(i, j)]:
+                    drawBottomLeft((i,j))
+                if (i,j) not in dict_adj or (i+1,j-1) not in dict_adj[(i,j)]:
+                    drawBottomRight((i,j))
 
 if __name__ == "__main__":
     render = Render()
