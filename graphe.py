@@ -67,3 +67,4 @@ class Graph :
         """Méthode qui crée une arête connectant les sommets indiqués et ayant un poids donné au préalable"""
         self.add_arete(sommets, p)
         self.set_weight_arete(sommets, p)
+
