@@ -13,14 +13,12 @@ aff = Render()
 aff.set_axes(4, 6)
 test1.dico_grid_not_weighted(4, 6)
 aff.display_graph(test1.graph)
-ex1 = Algo(test1.graph)
-
-print(ex1.prim())"""
+"""
 
 test2 = Generation()
 aff2 = Render()
-aff2.set_axes(3, 3)
-test2.dico_grid_weighted(3,3)
+aff2.set_axes(10, 10)
+test2.dico_grid_weighted(10,10)
 """#aff2.display_graph(test2.graph)"""
 
 test = Generation()

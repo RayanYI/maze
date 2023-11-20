@@ -57,7 +57,7 @@ class Generation :
                 case_courante = (x, y)
                 self.graph.add_sommet(case_courante)
                 for move in moves:
-                    # si on se deplace horizontalement on ajoute baise_x a p sinon biaise_y
+                    # si on se deplace horizontalement on ajoute biaise_x a p sinon biaise_y
                     self.graph.add_arete((case_courante, (x + move[0], y + move[1])), p+abs(move[0])*biaise_x+abs(move[1])*biaise_y)
 
 

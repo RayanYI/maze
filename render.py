@@ -3,7 +3,7 @@ from graphe import Graph
 plot.gca().get_xaxis()
 plot.gca().get_yaxis()
 axes = plot.gca()
-#axes = plot.gca()
+
 
 
 class Render:
@@ -44,7 +44,7 @@ class Render:
                 if (i,j) not in dict_adj or (i+1,j) not in dict_adj[(i,j)]:
                     self.add_segment(point1=((2*i+1)/2,j-0.5), point2 = ((2*i+1)/2,j+0.5),color='b')
 
-        #self.display()
+        self.display()
 
 
 if __name__ == "__main__":
