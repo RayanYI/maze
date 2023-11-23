@@ -12,7 +12,7 @@ class Resolution:
 
         adj = self.graph.get_adj()
 
-        if (self.x-1,self.y-1) not in adj or (0,0) not in adj:
+        if (self.x,self.y) not in adj or (0,0) not in adj:
             return False
 
         founded = False
@@ -27,7 +27,7 @@ class Resolution:
                     continue
                 flag[neighboor] = curr
 
-                if neighboor == (self.x-1,self.y-1):
+                if neighboor == (self.x,self.y):
                     founded = True
                     break
                 q.append(neighboor)
@@ -35,10 +35,10 @@ class Resolution:
         if not founded:
             return False
 
-        curr = (self.x-1,self.y-1)
+        curr = (self.x,self.y)
         while curr != (0,0):
             next = flag[curr]
-            self.render.add_segment(curr,next,color='g')
+            self.render.add_segment(curr,next,color='r')
             curr = next
 
         return True

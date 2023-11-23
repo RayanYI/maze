@@ -11,8 +11,8 @@ class Render:
 
     def set_axes(self, x, y):
         """Méthode qui permet de définir la borne supérieure des axes"""
-        axes.set_xlim(0,x)
-        axes.set_ylim(0, y)
+        axes.set_xlim(-1,x+1)
+        axes.set_ylim(-1, y+1)
         
     def add_segment(self, point1 : tuple, point2 : tuple, color : str):
         """Méthode qui permet d'ajouter un segment"""
@@ -37,10 +37,16 @@ class Render:
         dict_adj = graph.get_adj()
         x,y = int(axes.get_xlim()[1]),int(axes.get_ylim()[1])
 
-        for i in range(x+1):
-            for j in range(y+1):
+        for i in range(x):
+            self.add_segment(point1=(i -0.5, -0.5), point2=(i + 0.5, -0.5), color='b')
+
+        for j in range(y):
+            self.add_segment(point1=(-0.5, j-0.5), point2=(-0.5, j+0.5), color='b')
+
+        for i in range(x):
+            for j in range(y):
                 if (i,j) not in dict_adj or (i,j+1) not in dict_adj[(i,j)]:
-                    self.add_segment(point1=(i-0.5,(2*j+1)/2), point2 = (i+0.5,(2*j+1)/2),color='r')
+                    self.add_segment(point1=(i-0.5,(2*j+1)/2), point2 = (i+0.5,(2*j+1)/2),color='b')
 
                 if (i,j) not in dict_adj or (i+1,j) not in dict_adj[(i,j)]:
                     self.add_segment(point1=((2*i+1)/2,j-0.5), point2 = ((2*i+1)/2,j+0.5),color='b')
