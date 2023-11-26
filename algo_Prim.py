@@ -30,7 +30,7 @@ class Algo :
             self.parent[sommet]=None
         queue = self.graph.copy_liste_sommet()  #On initialise la file
         while queue != []:
-            queue_costs = []    #On a besoin d'une liste qui contient les coûts des sommets de la file dans le même ordre, donc on a la réinitialise à chaque coût
+            queue_costs = []    #On a besoin d'une liste qui contient les coûts des sommets de la file dans le même ordre, donc on a la réinitialise à chaque coup
             for sommet in queue:    
                 queue_costs.append(self.cost[sommet])   
             index_mini = self.minimal(queue_costs)  #On récupère l'indice du plus petit sommet avec la méthode minimal
