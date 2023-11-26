@@ -1,5 +1,6 @@
 from graphe import Graph
 from random import Random
+import numpy as np
 
 
 class Generation : 
@@ -66,19 +67,41 @@ class Generation :
 
     def dico_hexagonal_grid_weighted(self, width: int, height: int) -> tuple:
         """Méthode qui renvoie les dictionnaires de poids et d'ajdacence du graphe pondéré aléatoirement d'une grille de largeur et de hauteur spécifiées"""
-        moves = [(1, 0), (-1, 0), (1, 1), (-1, 1),(-1,-1),(1,-1)]
+        def getCenter(i,j):
+            x, y = i * np.sqrt(3), j * (6 / 4)
+            if j % 2 != 0:
+                x += np.sqrt(3) / 2
+            return (x,y)
+
+        moveOdd = [(1, 1), (0, 1), (-1, 0), (0, -1), (1, -1), (1, 0)]
+        moveEven = [(0, 1), (-1, 1), (-1, 0), (-1, -1), (0, -1), (1, 0)]
         self.width = width
         self.height = height
-        for i in range(height + 1):
-            for j in range(width + 1):
+
+        i = 0
+        while getCenter(i, 0)[0] <= width:
+            j = 0
+            while getCenter(0, j)[1] <= height:
                 random = Random()
                 p = random.uniform(0, 1)
-                x = j
-                y = i
-                case_courante = (x, y)
+
+                case_courante = getCenter(i, j)
+                # print(case_courante)
                 self.graph.add_sommet(case_courante)
-                for move in moves:
-                    if x+move[0] >= 0 and x+move[0] <=width and y+move[1] >=0 and y+move[1] <=height:
-                        self.graph.add_arete((case_courante, (x + move[0], y + move[1])), p)
+
+                if j % 2 != 0:
+                    for move in moveOdd:
+                        next = getCenter(i + move[0], j + move[1])
+                        if next[0] >= 0 and next[0] <= width and next[1] >= 0 and next[1] <= height:
+                            # next = getCenter(i + move[0], j + move[1])
+                            self.graph.add_arete((case_courante, next), p)
+                else:
+                    for move in moveEven:
+                        next = getCenter(i + move[0], j + move[1])
+                        if next[0] >= 0 and next[0] <= width and next[1] >= 0 and next[1] <= height:
+                            # next = getCenter(i + move[0], j + move[1])
+                            self.graph.add_arete((case_courante, next), p)
+                j+=1
+            i+=1
 
         return self.graph.get_adj(), self.graph.weight

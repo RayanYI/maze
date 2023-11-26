@@ -13,6 +13,9 @@ class Render:
         """Méthode qui permet de définir la borne supérieure des axes"""
         axes.set_xlim(-1,x+1)
         axes.set_ylim(-1, y+1)
+    def set_hexagonal_axes(self,x,y):
+        axes.set_xlim(-3/2, x + 3/2)
+        axes.set_ylim(-3/2, y + 3/2)
         
     def add_segment(self, point1 : tuple, point2 : tuple, color : str):
         """Méthode qui permet d'ajouter un segment"""
@@ -54,55 +57,55 @@ class Render:
         #self.display()
 
     def draw_hexagonal_Maze(self,PrimTree:Graph):
-        m = 0.5
-        def drawTopRight(center: tuple):
-            a = (center[0] + m*np.sin(0), center[1] + m*np.cos(0))
-            b = (center[0] + m*np.sin(1.04719755), center[1] + m*np.cos(1.04719755))
-            self.add_segment(a, b, color='b')
+        def pointy_hex_corner(center, size, i):
+            angle_deg = 60 * i - 30
+            angle_rad = np.pi / 180 * angle_deg
+            return (center[0] + size * np.cos(angle_rad), center[1] + size * np.sin(angle_rad))
 
-        def drawRight(center: tuple):
-            a = (center[0] + m*np.sin(1.04719755), center[1] + m*np.cos(1.04719755))
-            b = (center[0] + m*np.sin(2.0943951), center[1] + m*np.cos(2.0943951))
-            self.add_segment(a, b, color='b')
-
-        def drawBottomRight(center: tuple):
-            a = (center[0] + m*np.sin(2.0943951), center[1] + m*np.cos(2.0943951))
-            b = (center[0] + m*np.sin(3.14159265), center[1] + m*np.cos(3.14159265))
-            self.add_segment(a, b, color='b')
-
-        def drawBottomLeft(center: tuple):
-            a = (center[0] + m*np.sin(3.14159265), center[1] + m*np.cos(3.14159265))
-            b = (center[0] + m*np.sin(4.1887902), center[1] + m*np.cos(4.1887902))
-            self.add_segment(a, b, color='b')
-
-        def drawLeft(center: tuple):
-            a = (center[0] + m*np.sin(4.1887902), center[1] + m*np.cos(4.1887902))
-            b = (center[0] + m*np.sin(5.23598776),center[1] + m*np.cos(5.23598776))
-            self.add_segment(a, b, color='b')
-
-        def drawTopLeft(center: tuple):
-            a = (center[0] + m*np.sin(5.23598776), center[1] + m*np.cos(5.23598776))
-            b = (center[0] + m*np.sin(6.28318531), center[1] + m*np.cos(6.28318531))
-            self.add_segment(a, b, color='b')
+        def getCenter(i,j):
+            x, y = i * np.sqrt(3), j * (6 / 4)
+            if j % 2 != 0:
+                x += np.sqrt(3) / 2
+            return (x,y)
 
         dict_adj = PrimTree.get_adj()
-        x, y = int(axes.get_xlim()[1]), int(axes.get_ylim()[1])
+        #print(dict_adj)
+        x, y = int(axes.get_xlim()[1])-1, int(axes.get_ylim()[1])-1
+        #print(x,y)
+        moveOdd = [(1,1),(0,1),(-1,0),(0,-1),(1,-1),(1,0)]
+        moveEven = [(0,1),(-1,1),(-1,0),(-1,-1),(0,-1),(1,0)]
 
-        for i in range(x+1):
-            for j in range(y+1):
+        """
+        top right (1,2)
+        top left(2,3)
+        left(3,4)
+        bottomLeft(4,5)
+        bottomRight(5,6)
+        right(6,7)
+        """
 
-                if (i,j) not in dict_adj or (i+1,j) not in dict_adj[(i,j)]:
-                    drawRight((i,j))
-                if (i,j) not in dict_adj or (i-1,j) not in dict_adj[(i,j)]:
-                    drawLeft((i,j))
-                if (i,j) not in dict_adj or (i+1,j+1) not in dict_adj[(i,j)]:
-                    drawTopRight((i,j))
-                if (i,j) not in dict_adj or (i-1,j+1) not in dict_adj[(i,j)]:
-                    drawTopLeft((i,j))
-                if (i, j) not in dict_adj or (i-1, j-1) not in dict_adj[(i, j)]:
-                    drawBottomLeft((i,j))
-                if (i,j) not in dict_adj or (i+1,j-1) not in dict_adj[(i,j)]:
-                    drawBottomRight((i,j))
+        i=0
+        while getCenter(i,0)[0]<=x:
+            j=0
+            while getCenter(0,j)[1]<=y:
+                center = getCenter(i, j)
+                #print(getCenter(0,j),y)
+                if j % 2 != 0:
+                    # print("odd")
+                    for k in range(len(moveOdd)):
+                        next = getCenter(i + moveOdd[k][0], j + moveOdd[k][1])
+                        if next[0]<=x+3 and next[1]<=y+3 and (center not in dict_adj or next not in dict_adj[center]):
+                            self.add_segment(pointy_hex_corner(center, 1, k + 1), pointy_hex_corner(center, 1, k + 2),color='b')
+                            #print(f"odd{center, i, j, getCenter(i + moveOdd[k][0], j + moveOdd[k][1])}")
+                else:
+                    for k in range(len(moveEven)):
+                        # print("even")
+                        next = getCenter(i + moveEven[k][0], j + moveEven[k][1])
+                        if next[0]<=x+3 and next[1]<=y+3 and (center not in dict_adj or next not in dict_adj[center]):
+                            self.add_segment(pointy_hex_corner(center, 1, k + 1), pointy_hex_corner(center, 1, k + 2),color='b')
+                            #print(f"even {center, getCenter(i + moveEven[k][0], j + moveEven[k][1])}")
+                j+=1
+            i+=1
 
 if __name__ == "__main__":
     render = Render()

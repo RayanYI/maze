@@ -2,17 +2,15 @@ from graphe import Graph
 from render import Render
 class Resolution:
 
-    def __init__(self,PrimTree:Graph,x:int,y:int,render:Render):
+    def __init__(self,PrimTree:Graph,render:Render):
         self.graph = PrimTree
-        self.x = x
-        self.y = y
         self.render = render
 
-    def shortestPathSolving(self)->bool:
+    def shortestPathSolving(self,target:tuple)->bool:
 
         adj = self.graph.get_adj()
 
-        if (self.x,self.y) not in adj or (0,0) not in adj:
+        if target not in adj or (0,0) not in adj:
             return False
 
         founded = False
@@ -27,7 +25,7 @@ class Resolution:
                     continue
                 flag[neighboor] = curr
 
-                if neighboor == (self.x,self.y):
+                if neighboor == target:
                     founded = True
                     break
                 q.append(neighboor)
@@ -35,7 +33,7 @@ class Resolution:
         if not founded:
             return False
 
-        curr = (self.x,self.y)
+        curr = target
         while curr != (0,0):
             next = flag[curr]
             self.render.add_segment(curr,next,color='r')
